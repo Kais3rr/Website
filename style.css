@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+* {
+    cursor: none;
+}
+
+body {
+    background-color: #090909;
+    font-family: "DM Mono";
+    font-style: normal;
+    font-display: swap;
+    color: white;
+}
+
+.CustomCursor {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: none;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+    z-index: 99;
+}
+
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+::-moz-selection,
+::selection {
+    background-color: transparent;
+}
+
+h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 500;
+}
+
+h2,
+h3 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-display: none;
+    font-weight: 500;
+}
+
+p {
+    color: #8f8f8f;
+    font-display: none;
+    font-weight: 400;
+    max-width: 75vw;
+}
+
+.Main {
+    padding-left: 7vw;
+    padding-right: 7vw;
+    padding-top: 7vh;
+    padding-bottom: 7vh;
+}
+
+.ProjectContainer {
+    display: block;
+    border-style: none;
+    border-radius: 15px;
+    background-color: #171717;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 13px;
+    padding-right: 13px;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    max-width: 80vw;
+    color: #a3a3a3;
+    font-family: "DM Mono";
+    font-style: normal;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+}
+
+.MusicButton,
+.LanguageContainer,
+.SocialButton {
+    display: block;
+    border-style: none;
+    border-radius: 15px;
+    background-color: #171717;
+    padding-left: 13px;
+    padding-right: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    color: #a3a3a3;
+    font-family: "DM Mono";
+    font-style: normal;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.SocialButton {
+    height: 25px;
+}
+
+.MusicButton,
+.LanguageContainer {
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.MusicButton:hover,
+.LanguageContainer:hover,
+.SocialButton:hover,
+.ProjectContainer:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.Separator {
+    height: 5px;
+    background: linear-gradient(90deg, #ff6f61, #ffca28, #4caf50, #2196f3, #9c27b0);
+    background-size: 300% 300%;
+    animation: SeperatorAnimation 10s ease infinite;
+    border: none;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+@keyframes SeperatorAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.SocialRow {
+    padding-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.SocialIcon {
+    display: block;
+}
+
+.Link {
+    text-decoration: none;
+    color: #a3a3a3;
+    font-family: "DM Mono";
+    font-style: normal;
+    display: block;
+}
