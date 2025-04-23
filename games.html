@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games - kaizer.lol</title>
+    <meta name="description" content="List of games I play and recommend." />
+    <meta content="kaizer.lol" property="og:title" />
+    <meta content="Games Page" property="og:description" />
+    <meta content="https://kaizer.lol/games" property="og:url" />
+    <meta content="https://kaizer.lol/favicon.ico" property="og:image" />
+    <meta content="#fcfcfc" data-react-helmet="true" name="theme-color" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="CustomCursor">
+        <img src="Icons/Cursor.png" alt="Cursor">
+    </div>
+    <div id="particles-js"></div>
+
+    <div class="Main">
+        <div class="SocialRow">
+            <button class="MusicButton">
+                <img src="favicon.ico" alt="Favicon" width="20" height="20" class="SocialIcon">
+                <a class="Link" href="/">Back to Home</a>
+            </button>
+        </div>
+
+        <h1>Coming Soon</h1>
+        <iframe src="https://www.crazygames.com/embed/goober-dash" style="width: 100%; height: 100%;" frameborder="0" allow="gamepad *;"></iframe>
+            </div>
+        </div>
+
+    </div>
+    <script src="JS/Init.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 50,
+                    "density": {
+                        "enable": false,
+                        "value_area": 500
+                    }
+                },
+                "color": {
+                    "value": ["#FAFAFA"]
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#fff"
+                    }
+                },
+                "opacity": {
+                    "value": 0.6,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "size_min": 0.1,
+                        "sync": true
+                    }
+                },
+                "line_linked": {
+                    "enable": false,
+                    "distance": 120,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                }
+            },
+            "interactivity": {
+                "detect_on": "window",
+                "events": {
+                    "onhover": {
+                        "enable": false,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "repulse": {
+                        "distance": 150,
+                        "duration": 1.5
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - kaizer.lol</title>
+  <meta name="description" content="Login to kaizer.lol" />
+  <meta property="og:title" content="kaizer.lol Login" />
+  <meta property="og:description" content="Secure access to your account" />
+  <meta property="og:url" content="https://kaizer.lol/login" />
+  <meta property="og:image" content="https://kaizer.lol/favicon.ico" />
+  <meta name="theme-color" content="#fcfcfc" />
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+  <style>
+    /* Custom input styling to match buttons */
+    input[type="text"],
+    input[type="password"] {
+      background-color: #171717;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      padding: 10px 13px;
+      font-family: "DM Mono";
+      font-size: 1rem;
+      width: 100%;
+      margin-top: 5px;
+      margin-bottom: 15px;
+    }
+
+    label {
+      color: #a3a3a3;
+      font-family: "DM Mono";
+      font-size: 1rem;
+      display: block;
+    }
+
+    button[type="submit"] {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Custom Cursor -->
+  <div class="CustomCursor">
+    <img src="Icons/Cursor.png" alt="Cursor" />
+  </div>
+
+  <!-- Particles Background -->
+  <div id="particles-js"></div>
+
+  <!-- Main Content -->
+  <div class="Main">
+
+    <!-- Navigation Button -->
+    <div class="SocialRow">
+      <a href="/" class="MusicButton">
+        <img src="favicon.ico" alt="Home" width="20" height="20" class="SocialIcon" />
+        <span class="Link">Back to Home</span>
+      </a>
+    </div>
+
+    <!-- Login Section -->
+    <div class="Main">
+      <h1>Login to Kaizer.lol</h1>
+      <p>Please enter your username and password to log in.</p>
+
+      <!-- Login Form -->
+      <form id="loginForm">
+        <div>
+          <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+        </div>
+
+        <div>
+          <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="MusicButton">
+          <img src="favicon.ico" alt="Login Icon" width="20" height="20" class="SocialIcon" />
+          <span class="Link">Login</span>
+        </button>
+      </form>
+    </div>
+
+      <p id="errorMessage" style="color: red; display: none;">
+        Invalid username or password. Please try again.
+      </p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script src="JS/login.js"></script>
+  <script src="JS/Init.js"></script>
+
+  <!-- Particles Config -->
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 50, density: { enable: false, value_area: 500 } },
+        color: { value: ["#FAFAFA"] },
+        shape: { type: "circle", stroke: { width: 0, color: "#fff" } },
+        opacity: {
+          value: 0.6,
+          random: true,
+          anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
+        },
+        size: {
+          value: 3,
+          random: true,
+          anim: { enable: true, speed: 1, size_min: 0.1, sync: true }
+        },
+        line_linked: { enable: false },
+      },
+      interactivity: {
+        detect_on: "window",
+        events: {
+          onhover: { enable: false },
+          onclick: { enable: true, mode: "repulse" },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 150, duration: 1.5 }
+        }
+      },
+      retina_detect: true
+    });
+  </script>
+</body>
+
+</html>
