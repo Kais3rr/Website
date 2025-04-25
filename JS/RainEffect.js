@@ -11,13 +11,23 @@ class RainEffect {
         }
         this.ctx = this.canvas.getContext('2d');
         
-        // Rain properties
+        // Detect mobile devices
+        this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        console.log("Device type:", this.isMobile ? "Mobile" : "Desktop");
+        
+        // Set extra CSS properties for mobile
+        if (this.isMobile) {
+            this.canvas.style.zIndex = "-9999"; // Make sure it's way behind on mobile
+            this.canvas.style.pointerEvents = "none"; // Ensure it doesn't capture touch events
+        }
+        
+        // Rain properties with mobile adjustments
         this.drops = [];
-        this.maxDrops = 250; // Reduced number of raindrops
-        this.dropLength = 30; // Shorter rain drops
-        this.dropWidth = 2; // Thinner rain drops
+        this.maxDrops = this.isMobile ? 150 : 250; // Fewer drops on mobile
+        this.dropLength = this.isMobile ? 20 : 30; // Shorter drops on mobile
+        this.dropWidth = this.isMobile ? 1 : 2; // Thinner drops on mobile 
         this.dropColor = 'rgba(255, 255, 255, 0.7)'; // Slightly transparent white rain
-        this.speed = 15; // Slower falling speed
+        this.speed = this.isMobile ? 10 : 15; // Slower speed on mobile
         
         // Track mouse for angle control
         this.mouseX = window.innerWidth / 2;
@@ -54,7 +64,7 @@ class RainEffect {
     }
     
     setupListeners() {
-        // Track mouse movement
+        // Track mouse movement for desktop
         window.addEventListener('mousemove', (e) => {
             this.mouseX = e.clientX;
             this.mouseY = e.clientY;
@@ -64,6 +74,21 @@ class RainEffect {
             const xRatio = this.mouseX / this.width;
             this.angle = (xRatio - 0.5) * this.maxTilt;
         });
+        
+        // Add touch support for mobile devices
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches && e.touches[0]) {
+                this.mouseX = e.touches[0].clientX;
+                this.mouseY = e.touches[0].clientY;
+                
+                // Calculate rain angle based on touch position
+                const xRatio = this.mouseX / this.width;
+                this.angle = (xRatio - 0.5) * this.maxTilt;
+                
+                // Prevent default to avoid scrolling while interacting with rain
+                // e.preventDefault(); // Only if needed, can cause issues with page scrolling
+            }
+        }, { passive: true }); // Use passive to improve scrolling performance
         
         // Handle window resize
         window.addEventListener('resize', () => {
