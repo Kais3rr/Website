@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="style.css">
   <script src="JS/MusicHandler.js"></script>
   <script src="JS/Init.js"></script>
+  <script src="JS/RainEffect.js"></script>
 
   <style>
     .TopRightLogin {
@@ -44,6 +45,9 @@
 </head>
 
 <body>
+  <!-- Rain canvas as the very first element to ensure it's behind everything -->
+  <canvas id="rain-canvas"></canvas>
+  
   <!-- Top Right Login Button -->
   <form action="/login.html" method="GET" class="TopRightLogin">
     <button type="submit" class="MusicButton">
@@ -52,8 +56,9 @@
     </button>
   </form>
 
+  <!-- Particles temporarily removed -->
+  <!-- <div id="particles-js"></div> -->
   <div class="CustomCursor"><img src="Icons/Cursor.png"></div>
-  <div id="particles-js"></div>
 
   <div class="Main">
     <audio id="MusicPlayer" src="Music.mp3" loop preload="auto"></audio>
@@ -135,8 +140,11 @@
   </div>
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <!-- Particles temporarily commented out -->
+ <!-- <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
 
+  <!-- Particles initialization temporarily commented out -->
+  <!--
   <script>
     particlesJS("particles-js", {
       "particles": {
@@ -176,6 +184,7 @@
       "retina_detect": true
     });
   </script>
+  -->
 </body>
 
 </html>
