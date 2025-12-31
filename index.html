@@ -19,23 +19,6 @@
   <script src="JS/RainEffect.js"></script>
 
   <style>
-    /* Body and Scroll setup for Global Fade */
-    body {
-      margin: 0;
-      background-color: #090909;
-      /* Adjusted mask: 2% threshold so it only fades when super close to the edge */
-      /* fixed ensures the mask stays at the viewport edges while you scroll */
-      -webkit-mask-image: linear-gradient(to bottom, transparent, black 2%, black 2%, transparent);
-      mask-image: linear-gradient(to bottom, transparent, black 2%, black 2%, transparent);
-      -webkit-mask-size: 100% 100%;
-      mask-size: 100% 100%;
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-      
-      height: 100vh;
-      overflow-y: auto;
-      scrollbar-width: none;
-    }
 
     body::-webkit-scrollbar {
       display: none;
@@ -176,6 +159,7 @@
 </body>
 
 </html>
+
 
 
 
