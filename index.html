@@ -19,12 +19,63 @@
   <script src="JS/RainEffect.js"></script>
 
   <style>
-    body, a, button, .PortfolioButton, .SocialButton, .LanguageContainer, .ProjectContainer {
-      cursor: none !important;
+    body {
+      margin: 0;
+      background-color: #090909;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 2%, black 2%, transparent);
+      mask-image: linear-gradient(to bottom, transparent, black 2%, black 2%, transparent);
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      
+      height: 100vh;
+      overflow: hidden; /* Prevent scrolling until entered */
+      scrollbar-width: none;
     }
 
     body::-webkit-scrollbar {
       display: none;
+    }
+
+    /* ENTRY OVERLAY STYLES */
+    #entry-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #090909;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1s ease, visibility 1s ease;
+      cursor: pointer;
+    }
+
+    #entry-overlay p {
+      color: #a3a3a3;
+      font-family: "DM Mono", monospace;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+
+    /* MAIN CONTENT FADE */
+    .Main {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    .Main.visible {
+      opacity: 1;
     }
 
     .TopRightNav {
@@ -32,10 +83,12 @@
       top: 20px;
       right: 20px;
       z-index: 1000;
+      opacity: 0;
+      transition: opacity 1s ease;
     }
 
-    .body, a, button, .PortfolioButton, .SocialButton, .LanguageContainer, .ProjectContainer {
-      cursor: none !important;
+    .TopRightNav.visible {
+      opacity: 1;
     }
 
     .TopRightNav .PortfolioButton {
@@ -67,11 +120,16 @@
 </head>
 
 <body>
+  <!-- Entry Overlay -->
+  <div id="entry-overlay" onclick="startExperience()">
+    <p>[ CLICK TO ENTER ]</p>
+  </div>
+
   <!-- Rain canvas -->
   <canvas id="rain-canvas"></canvas>
   
   <!-- Top Right Portfolio Button -->
-  <div class="TopRightNav">
+  <div class="TopRightNav" id="nav-btn">
     <a href="/portfolio" class="PortfolioButton">
       <img src="Icons/Lua.png" alt="Portfolio Icon" width="18" height="18" class="SocialIcon" />
       <span class="Link">Portfolio</span>
@@ -80,7 +138,7 @@
 
   <div class="CustomCursor"><img src="Icons/Cursor.png"></div>
 
-  <div class="Main">
+  <div class="Main" id="content">
     <audio id="MusicPlayer" src="Music.mp3" loop preload="auto"></audio>
     <div class="SocialRow">
       <button class="MusicButton">
@@ -158,12 +216,40 @@
     </a>
   </div>
 
+  <script>
+    // Start Experience Function
+    function startExperience() {
+      const overlay = document.getElementById('entry-overlay');
+      const content = document.getElementById('content');
+      const navBtn = document.getElementById('nav-btn');
+      const music = document.getElementById('MusicPlayer');
+
+      // Play music
+      music.play().catch(e => console.log("Audio play blocked:", e));
+
+      // Visual transitions
+      overlay.style.opacity = '0';
+      overlay.style.visibility = 'hidden';
+      
+      content.classList.add('visible');
+      navBtn.classList.add('visible');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Toggle Music Placeholder
+    function ToggleMusic() {
+      const music = document.getElementById('MusicPlayer');
+      const img = document.getElementById('MusicImage');
+      if (music.paused) {
+        music.play();
+        img.src = "Icons/Pause.png";
+      } else {
+        music.pause();
+        img.src = "Icons/Play.png";
+      }
+    }
+  </script>
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 </body>
 
 </html>
-
-
-
-
-
