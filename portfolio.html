@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaizer | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        * { cursor: none; }
+        
+        body {
+            background-color: #090909;
+            font-family: "DM Mono", monospace;
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .CustomCursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+
+        #rain-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -999;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .Main { padding: 7vh 7vw; }
+
+        .ProjectContainer {
+            display: flex;
+            flex-direction: column;
+            border-radius: 15px;
+            background-color: #171717;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: #a3a3a3;
+            min-width: 320px;
+            max-width: 320px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .ProjectContainer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 30px rgba(59, 130, 246, 0.1);
+            color: white;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .Separator {
+            height: 5px;
+            background: linear-gradient(90deg, #3b82f6, #6366f1, #a855f7, #ec4899);
+            background-size: 300% 300%;
+            animation: SeperatorAnimation 10s ease infinite;
+            border: none;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+
+        @keyframes SeperatorAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .StatValue { color: white; font-size: 3rem; font-weight: 500; }
+
+        /* Scroll System with Masking Fade */
+        .ScrollWrapper {
+            position: relative;
+            margin: 0 -20px;
+            padding: 0 20px;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .ScrollContainer {
+            display: flex;
+            overflow-x: auto;
+            gap: 24px;
+            padding: 20px 0 40px 0;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+        
+        .ScrollContainer::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome */
+
+        .GameIcon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: #262626;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .LiveIndicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #3b82f6;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+        
+        .Pulse {
+            width: 6px;
+            height: 6px;
+            background: #3b82f6;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        video {
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            background: #000;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="CustomCursor" id="cursor"></div>
+    <canvas id="rain-canvas"></canvas>
+
+    <main class="Main">
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold">Kaizer</h1>
+            <p class="opacity-60">Roblox Systems Engineer & VFX Designer</p>
+            <div class="Separator"></div>
+        </header>
+
+        <!-- Dynamic Stats Section -->
+        <section class="mb-20">
+            <h2 class="text-xs uppercase tracking-[0.3em] mb-8 opacity-40">Network Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="ProjectContainer !max-w-none text-center">
+                    <div class="text-[10px] uppercase tracking-[0.2em] mb-2 opacity-50">Active Projects</div>
+                    <div class="StatValue" id="game-counter">--</div>
+                </div>
+                <div class="ProjectContainer !max-w-none text-center">
+                    <div class="text-[10px] uppercase tracking-[0.2em] mb-2 opacity-50">Combined Experience Visits</div>
+                    <div class="StatValue" id="visit-counter">--</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Contributed -->
+        <section class="mb-20">
+            <h2 class="text-xs uppercase tracking-[0.3em] mb-4 opacity-40">Games Contributed</h2>
+            <div class="ScrollWrapper">
+                <div id="games-grid" class="ScrollContainer">
+                    <!-- Rendered via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VFX & Technical Showcases -->
+        <section>
+            <h2 class="text-xs uppercase tracking-[0.3em] mb-4 opacity-40">Technical Showcases</h2>
+            <div class="ScrollWrapper">
+                <div id="projects-grid" class="ScrollContainer">
+                    <!-- Rendered via JS -->
+                </div>
+            </div>
+        </section>
+
+        <footer class="mt-20 opacity-20 text-[9px] tracking-[0.4em] uppercase text-center pb-10">
+            <p>Authored by Kaizer &bull; Systems Validated 2025</p>
+        </footer>
+    </main>
+
+    <script>
+        // --- DATA ---
+        const featuredGames = [
+            {
+                id: "77021749781226", // Blue Lock Skibidi
+                title: "Blue Lock Skibidi",
+                description: "High-performance physics soccer engine. Custom character states and ball manipulation.",
+                role: "Contributor",
+                link: "https://www.roblox.com/games/77021749781226",
+                isEmpty: false
+            },
+            { id: "000001", title: "Project Alpha", description: "Upcoming framework expansion.", role: "Contributor", isEmpty: true },
+            { id: "000002", title: "Project Beta", description: "Internal testing environment.", role: "Contributor", isEmpty: true },
+            { id: "000003", title: "Project Gamma", description: "System stress testing.", role: "Contributor", isEmpty: true }
+        ];
+
+        const vfxProjects = [
+            {
+                title: "Lightning Aura v2",
+                description: "GPU-accelerated particle system with dynamic branching.",
+                videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-abstract-blue-waves-and-lines-background-27361-large.mp4"
+            },
+            {
+                title: "Procedural Impact",
+                description: "Environment-aware shockwave distortion.",
+                videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-laptop-34444-large.mp4"
+            },
+            {
+                title: "Skill Node Framework",
+                description: "Data-driven skill system for rapid prototyping.",
+                videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-person-typing-on-a-keyboard-34442-large.mp4"
+            }
+        ];
+
+        // --- API LOGIC ---
+        async function getIcon(placeId) {
+            if (placeId.length < 10) return "https://tr.rbxcdn.com/30DAY-PlaceHolder-600x600-Png/150/150/Image/Png";
+            try {
+                const res = await fetch(`https://thumbnails.roproxy.com/v1/places/gameicons?placeIds=${placeId}&size=150x150&format=Png&isCircular=false`);
+                const json = await res.json();
+                return json.data[0].imageUrl;
+            } catch { return "https://tr.rbxcdn.com/30DAY-PlaceHolder-600x600-Png/150/150/Image/Png"; }
+        }
+
+        async function fetchGameStats(placeId) {
+            if (placeId.length < 10) return { visits: 0 };
+            try {
+                const uRes = await fetch(`https://apis.roproxy.com/universes/v1/places/${placeId}/universe`);
+                const { universeId } = await uRes.json();
+                const gRes = await fetch(`https://games.roproxy.com/v1/games?universeIds=${universeId}`);
+                const { data } = await gRes.json();
+                return data[0];
+            } catch { return { visits: 0 }; }
+        }
+
+        async function initDashboard() {
+            let totalVisits = 0;
+            let activeCount = 0;
+
+            for (const game of featuredGames) {
+                const stats = await fetchGameStats(game.id);
+                const iconUrl = await getIcon(game.id);
+                
+                totalVisits += stats.visits || 0;
+                if (!game.isEmpty) activeCount++;
+
+                const visitEl = document.getElementById(`visits-${game.id}`);
+                const iconEl = document.getElementById(`icon-${game.id}`);
+                if (visitEl) visitEl.innerText = (stats.visits || 0).toLocaleString() + " Visits";
+                if (iconEl) iconEl.src = iconUrl;
+            }
+
+            animateCounter('game-counter', activeCount);
+            animateCounter('visit-counter', totalVisits, "+");
+        }
+
+        function renderAll() {
+            const gamesGrid = document.getElementById('games-grid');
+            const projectsGrid = document.getElementById('projects-grid');
+
+            gamesGrid.innerHTML = featuredGames.map(game => `
+                <a href="${game.link || '#'}" target="_blank" class="ProjectContainer ${game.isEmpty ? 'opacity-40 grayscale pointer-events-none' : ''}">
+                    <img src="" id="icon-${game.id}" class="GameIcon" alt="Icon">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-white font-medium">${game.title}</h3>
+                        <div class="LiveIndicator"><div class="Pulse"></div>LIVE</div>
+                    </div>
+                    <p class="text-[11px] mb-6 line-clamp-2">${game.description}</p>
+                    <div class="mt-auto flex justify-between items-center">
+                        <span class="text-[9px] border border-blue-500/30 text-blue-400 px-2 py-0.5 rounded uppercase">${game.role}</span>
+                        <div class="text-[10px] font-mono text-white/40" id="visits-${game.id}">0 Visits</div>
+                    </div>
+                </a>
+            `).join('');
+
+            projectsGrid.innerHTML = vfxProjects.map(vfx => `
+                <div class="ProjectContainer">
+                    <video muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+                        <source src="${vfx.videoUrl}" type="video/mp4">
+                    </video>
+                    <h3 class="text-white mb-2 text-sm">${vfx.title}</h3>
+                    <p class="text-[10px] opacity-50">${vfx.description}</p>
+                </div>
+            `).join('');
+
+            // Apply horizontal scroll logic to all ScrollContainers
+            document.querySelectorAll('.ScrollContainer').forEach(container => {
+                container.addEventListener('wheel', (e) => {
+                    if (e.deltaY !== 0) {
+                        e.preventDefault();
+                        container.scrollLeft += e.deltaY;
+                    }
+                });
+            });
+        }
+
+        // --- VISUALS ---
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const canvas = document.getElementById('rain-canvas');
+        const ctx = canvas.getContext('2d');
+        let drops = [];
+
+        function initRain() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drops = Array(80).fill().map(() => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                len: Math.random() * 15 + 5,
+                v: Math.random() * 5 + 3
+            }));
+        }
+
+        function drawRain() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.08)';
+            ctx.lineWidth = 1;
+            drops.forEach(d => {
+                ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.len); ctx.stroke();
+                d.y += d.v; if (d.y > canvas.height) d.y = -d.len;
+            });
+            requestAnimationFrame(drawRain);
+        }
+
+        function animateCounter(id, target, suffix = "") {
+            const el = document.getElementById(id);
+            let current = 0;
+            const step = () => {
+                current += Math.ceil(target / 40);
+                if (current >= target) {
+                    el.innerText = target.toLocaleString() + suffix;
+                } else {
+                    el.innerText = current.toLocaleString() + suffix;
+                    requestAnimationFrame(step);
+                }
+            };
+            step();
+        }
+
+        window.onload = () => {
+            renderAll();
+            initRain();
+            drawRain();
+            initDashboard();
+        };
+        window.onresize = initRain;
+    </script>
+</body>
+</html>
