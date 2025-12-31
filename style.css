@@ -1,189 +1,373 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
-* {
-    cursor: none;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaizer | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+        
+        * {
+            cursor: none;
+        }
 
-body {
-    background-color: #090909;
-    font-family: "DM Mono";
-    font-style: normal;
-    font-display: swap;
-    color: white;
-}
+        body {
+            background-color: #090909;
+            font-family: "DM Mono";
+            font-style: normal;
+            font-display: swap;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
 
-.CustomCursor {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: none;
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s;
-    z-index: 99;
-}
+        #page-wrapper {
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
 
-#particles-js {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
+        .CustomCursor {
+            position: fixed; /* Changed to fixed for viewport tracking */
+            width: 20px;
+            height: 20px;
+            background-color: transparent;
+            border: 2px solid #3b82f6; /* Visible border for tracking */
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s;
+            z-index: 999999;
+        }
 
-#rain-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -999; /* Extremely low z-index to ensure it's behind absolutely everything */
-    pointer-events: none;
-    opacity: 0.8; /* Slight transparency for the entire canvas */
-}
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
 
-/* Mobile-specific adjustments to ensure rain doesn't block content */
-@media (max-width: 768px) {
-    #rain-canvas {
-        height: 100vh; /* Use viewport height instead of percentage */
-        width: 100vw; /* Use viewport width */
-        position: fixed; /* Keep it fixed */
-        /* Make sure it doesn't create scrollable areas */
-        overflow: hidden;
-        max-height: 100vh;
-        max-width: 100vw;
-    }
-}
+        #rain-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -999;
+            pointer-events: none;
+            opacity: 0.8;
+        }
 
-::-moz-selection,
-::selection {
-    background-color: transparent;
-}
+        @media (max-width: 768px) {
+            #rain-canvas {
+                height: 100vh;
+                width: 100vw;
+                position: fixed;
+                overflow: hidden;
+                max-height: 100vh;
+                max-width: 100vw;
+            }
+        }
 
-h1 {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-    font-weight: 500;
-}
+        ::-moz-selection,
+        ::selection {
+            background-color: transparent;
+        }
 
-h2,
-h3 {
-    font-size: 1.5rem;
-    line-height: 2rem;
-    font-display: none;
-    font-weight: 500;
-}
+        h1 {
+            font-size: 2.25rem;
+            line-height: 2.5rem;
+            font-weight: 500;
+        }
 
-p {
-    color: #8f8f8f;
-    font-display: none;
-    font-weight: 400;
-    max-width: 75vw;
-}
+        h2,
+        h3 {
+            font-size: 1.5rem;
+            line-height: 2rem;
+            font-display: none;
+            font-weight: 500;
+        }
 
-.Main {
-    padding-left: 7vw;
-    padding-right: 7vw;
-    padding-top: 7vh;
-    padding-bottom: 7vh;
-}
+        p {
+            color: #8f8f8f;
+            font-display: none;
+            font-weight: 400;
+            max-width: 75vw;
+        }
 
-.ProjectContainer {
-    display: block;
-    border-style: none;
-    border-radius: 15px;
-    background-color: #171717;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-left: 13px;
-    padding-right: 13px;
-    align-items: center;
-    gap: 5px;
-    text-decoration: none;
-    max-width: 80vw;
-    color: #a3a3a3;
-    font-family: "DM Mono";
-    font-style: normal;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    font-size: 1rem;
-}
+        .Main {
+            padding-left: 7vw;
+            padding-right: 7vw;
+            padding-top: 7vh;
+            padding-bottom: 7vh;
+        }
 
-.MusicButton,
-.LanguageContainer,
-.SocialButton {
-    display: block;
-    border-style: none;
-    border-radius: 15px;
-    background-color: #171717;
-    padding-left: 13px;
-    padding-right: 13px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    text-decoration: none;
-    color: #a3a3a3;
-    font-family: "DM Mono";
-    font-style: normal;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+        .ProjectContainer {
+            display: block;
+            border-style: none;
+            border-radius: 15px;
+            background-color: #171717;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 13px;
+            padding-right: 13px;
+            text-decoration: none;
+            max-width: 80vw;
+            color: #a3a3a3;
+            font-family: "DM Mono";
+            font-style: normal;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
 
-.SocialButton {
-    height: 25px;
-}
+        .MusicButton,
+        .LanguageContainer,
+        .SocialButton {
+            display: flex;
+            border-style: none;
+            border-radius: 15px;
+            background-color: #171717;
+            padding-left: 13px;
+            padding-right: 13px;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: #a3a3a3;
+            font-family: "DM Mono";
+            font-style: normal;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.MusicButton,
-.LanguageContainer {
-    height: 30px;
-    margin-bottom: 10px;
-}
+        .SocialButton {
+            height: 25px;
+        }
 
-.MusicButton:hover,
-.LanguageContainer:hover,
-.SocialButton:hover,
-.ProjectContainer:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-}
+        .MusicButton,
+        .LanguageContainer {
+            height: 30px;
+            margin-bottom: 10px;
+        }
 
-.Separator {
-    height: 5px;
-    background: linear-gradient(90deg, #ff6f61, #ffca28, #4caf50, #2196f3, #9c27b0);
-    background-size: 300% 300%;
-    animation: SeperatorAnimation 10s ease infinite;
-    border: none;
-    border-radius: 10px;
-    margin: 20px 0;
-}
+        .MusicButton:hover,
+        .LanguageContainer:hover,
+        .SocialButton:hover,
+        .ProjectContainer:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
 
-@keyframes SeperatorAnimation {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
+        .Separator {
+            height: 5px;
+            background: linear-gradient(90deg, #ff6f61, #ffca28, #4caf50, #2196f3, #9c27b0);
+            background-size: 300% 300%;
+            animation: SeperatorAnimation 10s ease infinite;
+            border: none;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
 
-.SocialRow {
-    padding-bottom: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-}
+        @keyframes SeperatorAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-.SocialIcon {
-    display: block;
-}
+        .SocialRow {
+            padding-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
 
-.Link {
-    text-decoration: none;
-    color: #a3a3a3;
-    font-family: "DM Mono";
-    font-style: normal;
-    display: block;
-}
+        .Link {
+            text-decoration: none;
+            color: #a3a3a3;
+            font-family: "DM Mono";
+            font-style: normal;
+            display: block;
+        }
+
+        /* Modal specific styling to match theme */
+        #vfx-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #vfx-modal.active { display: flex; }
+    </style>
+</head>
+<body>
+
+    <div class="CustomCursor" id="cursor"></div>
+    <canvas id="rain-canvas"></canvas>
+
+    <div id="page-wrapper">
+        <div id="vfx-modal" onclick="this.classList.remove('active')">
+            <div class="bg-[#171717] p-6 rounded-[20px] max-w-2xl w-full border border-white/5" onclick="event.stopPropagation()">
+                <video id="modal-video" controls class="w-full rounded-lg mb-4"></video>
+                <h2 id="modal-title" class="mb-2"></h2>
+                <p id="modal-description" class="text-sm"></p>
+            </div>
+        </div>
+
+        <main class="Main">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                <div>
+                    <h1>Kaizer</h1>
+                    <p>Systems Engineer & VFX Designer</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <div class="LanguageContainer">System Status: Operational</div>
+                    <div class="MusicButton">Audio: Enabled</div>
+                </div>
+            </div>
+
+            <div class="Separator"></div>
+
+            <section class="mb-12">
+                <div class="SocialRow">
+                    <a href="#" class="SocialButton">Discord</a>
+                    <a href="#" class="SocialButton">GitHub</a>
+                    <a href="#" class="SocialButton">Roblox</a>
+                </div>
+            </section>
+
+            <section class="mb-16">
+                <h2 class="mb-6">Statistics</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="ProjectContainer">
+                        <div class="text-[10px] uppercase opacity-50 mb-1">Contributions</div>
+                        <div class="text-3xl font-bold" id="game-counter">0</div>
+                    </div>
+                    <div class="ProjectContainer">
+                        <div class="text-[10px] uppercase opacity-50 mb-1">Total Impact</div>
+                        <div class="text-3xl font-bold" id="visit-counter">0</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-16">
+                <h2 class="mb-6">Project Showcase</h2>
+                <div id="projects-grid" class="space-y-4">
+                    <!-- Projects injected here -->
+                </div>
+            </section>
+
+            <footer class="mt-20 opacity-20 text-[10px] text-center pb-10">
+                &copy; 2025 KAIZER ENGINE &bull; ACCESSING TERMINAL...
+            </footer>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kaizer-v2';
+
+        const vfxProjects = [
+            { id: "v1", title: "Procedural Lightning", desc: "Real-time branching lightning systems." },
+            { id: "v2", title: "Chaos Engine", desc: "Physics-based particle collisions." }
+        ];
+
+        async function init() {
+            await signInAnonymously(auth);
+            renderVFX();
+            initRain();
+            drawRain();
+            
+            // Stats animation
+            animateCounter('game-counter', 1);
+            animateCounter('visit-counter', 500000, "+");
+        }
+
+        function renderVFX() {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = vfxProjects.map(v => `
+                <div class="ProjectContainer" onclick="openModal('${v.title}', '${v.desc}')">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg">${v.title}</h3>
+                            <p class="text-xs">${v.desc}</p>
+                        </div>
+                        <div class="text-[10px] font-bold text-blue-400">VIEW SYSTEM</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.openModal = (title, desc) => {
+            const modal = document.getElementById('vfx-modal');
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-description').innerText = desc;
+            modal.classList.add('active');
+        };
+
+        function animateCounter(id, target, suffix = "") {
+            const el = document.getElementById(id);
+            let current = 0;
+            const step = () => {
+                current += Math.ceil(target / 100);
+                if (current >= target) {
+                    el.innerText = target.toLocaleString() + suffix;
+                } else {
+                    el.innerText = current.toLocaleString() + suffix;
+                    requestAnimationFrame(step);
+                }
+            };
+            step();
+        }
+
+        // Cursor logic
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Rain Logic
+        const canvas = document.getElementById('rain-canvas');
+        const ctx = canvas.getContext('2d');
+        let drops = [];
+        function initRain() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drops = Array(50).fill().map(() => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                len: Math.random() * 15 + 5,
+                v: Math.random() * 4 + 2
+            }));
+        }
+        function drawRain() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.4)';
+            drops.forEach(d => {
+                ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.len); ctx.stroke();
+                d.y += d.v; if (d.y > canvas.height) d.y = -d.len;
+            });
+            requestAnimationFrame(drawRain);
+        }
+
+        init();
+        window.addEventListener('resize', initRain);
+    </script>
+</body>
+</html>
