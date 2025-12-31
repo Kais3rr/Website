@@ -19,8 +19,30 @@
   <script src="JS/RainEffect.js"></script>
 
   <style>
+    /* Body and Scroll setup for Global Fade */
+    body {
+      margin: 0;
+      background-color: #090909;
+      /* Adjusted mask: 2% threshold so it only fades when super close to the edge */
+      /* fixed ensures the mask stays at the viewport edges while you scroll */
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 2%, black 98%, transparent);
+      mask-image: linear-gradient(to bottom, transparent, black 2%, black 98%, transparent);
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      
+      height: 100vh;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
     .TopRightNav {
-      position: absolute;
+      position: fixed; 
       top: 20px;
       right: 20px;
       z-index: 1000;
@@ -46,11 +68,16 @@
       color: white;
       transform: scale(1.05);
     }
+
+    /* Selection setting from your site CSS */
+    ::-moz-selection, ::selection {
+      background-color: transparent;
+    }
   </style>
 </head>
 
 <body>
-  <!-- Rain canvas as the very first element to ensure it's behind everything -->
+  <!-- Rain canvas -->
   <canvas id="rain-canvas"></canvas>
   
   <!-- Top Right Portfolio Button -->
@@ -61,8 +88,6 @@
     </a>
   </div>
 
-  <!-- Particles temporarily removed -->
-  <!-- <div id="particles-js"></div> -->
   <div class="CustomCursor"><img src="Icons/Cursor.png"></div>
 
   <div class="Main">
@@ -147,5 +172,4 @@
 </body>
 
 </html>
-
 
