@@ -30,6 +30,24 @@
             transition: transform 0.1s ease-out;
         }
 
+        /* Spinning Chicken Styles */
+        .SpinningChicken {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            z-index: 10000;
+            pointer-events: none;
+            animation: spin 3s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         #rain-canvas {
             position: fixed;
             top: 0;
@@ -46,18 +64,20 @@
         .ProjectContainer {
             display: flex;
             flex-direction: column;
-            border-radius: 15px;
-            background-color: #111111;
-            padding: 20px;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 20px;
+            background-color: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
             color: #a3a3a3;
-            min-width: 320px;
-            max-width: 320px;
-            border: 1px solid rgba(255,255,255,0.03);
+            width: calc((100vw - 14vw - 48px) / 3);
+            min-width: 380px;
+            border: 1px solid rgba(255,255,255,0.05);
             position: relative;
             z-index: 1;
             flex-shrink: 0;
+            overflow: hidden;
         }
 
         .ProjectContainer::before {
@@ -65,23 +85,24 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
             transform: translate(-50%, -50%);
             z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
         .ProjectContainer:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-12px);
             color: white;
-            border-color: rgba(59, 130, 246, 0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.7), 0 0 20px rgba(59, 130, 246, 0.1);
         }
 
-        .ProjectContainer:hover::before { opacity: 1; }
+        .ProjectContainer:hover::before {
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 75%);
+        }
 
         .Separator {
             height: 4px;
@@ -98,51 +119,51 @@
             100% { background-position: 0% 50%; }
         }
 
-        .StatValue { color: white; font-size: 3.5rem; font-weight: 500; letter-spacing: -2px; }
+        .StatValue { color: white; font-size: 4rem; font-weight: 500; letter-spacing: -2px; }
 
         .ScrollWrapper {
             position: relative;
             margin: 0 -7vw;
             padding: 0 7vw;
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
         }
 
         .ScrollContainer {
             display: flex;
             overflow-x: auto;
             gap: 24px;
-            padding: 30px 0 50px 0;
+            padding: 40px 0 60px 0;
             scrollbar-width: none;
-            scroll-behavior: smooth;
+            scroll-behavior: auto;
             -webkit-overflow-scrolling: touch;
         }
         
         .ScrollContainer::-webkit-scrollbar { display: none; }
 
         .GameIcon {
-            width: 60px;
-            height: 60px;
-            border-radius: 14px;
+            width: 72px;
+            height: 72px;
+            border-radius: 18px;
             background: #262626;
             object-fit: cover;
-            margin-bottom: 15px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            margin-bottom: 20px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.5);
         }
 
         .LiveIndicator {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: #3b82f6;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 900;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
         
         .Pulse {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             background: #3b82f6;
             border-radius: 50%;
             animation: pulse 2s infinite;
@@ -150,27 +171,33 @@
 
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            70% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
+            70% { box-shadow: 0 0 0 12px rgba(59, 130, 246, 0); }
             100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
         }
 
         video {
-            border-radius: 10px;
+            border-radius: 12px;
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             background: #000;
             aspect-ratio: 16/9;
             object-fit: cover;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
-        /* Smooth Vertical Page Mask */
         #main-mask {
             position: fixed;
             inset: 0;
             pointer-events: none;
             z-index: 50;
-            background: linear-gradient(to bottom, #090909 0%, transparent 10%, transparent 90%, #090909 100%);
+            background: linear-gradient(to bottom, #090909 0%, transparent 5%, transparent 95%, #090909 100%);
+        }
+
+        @media (max-width: 1200px) {
+            .ProjectContainer { width: calc((100vw - 14vw - 24px) / 2); }
+        }
+        @media (max-width: 768px) {
+            .ProjectContainer { width: calc(100vw - 14vw); }
         }
     </style>
 </head>
@@ -178,33 +205,37 @@
 
     <div class="CustomCursor" id="cursor"></div>
     <div id="main-mask"></div>
+    
+    <!-- Spinning Chicken Asset -->
+    <img src="https://cdn-icons-png.flaticon.com/512/1000/1000889.png" class="SpinningChicken" alt="Chicken">
+    
     <canvas id="rain-canvas"></canvas>
 
     <main class="Main">
-        <header class="mb-16">
-            <h1 class="text-5xl font-bold tracking-tight">Kaizer</h1>
-            <p class="opacity-50 mt-2 text-sm uppercase tracking-widest">Roblox Systems Engineer & VFX Designer</p>
+        <header class="mb-20">
+            <h1 class="text-6xl font-bold tracking-tight">Kaizer</h1>
+            <p class="opacity-50 mt-4 text-sm uppercase tracking-[0.4em]">Roblox Systems Engineer & VFX Designer</p>
             <div class="Separator"></div>
         </header>
 
         <!-- Dynamic Stats Section -->
-        <section class="mb-24">
-            <h2 class="text-xs uppercase tracking-[0.4em] mb-10 opacity-30">Network Overview</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="ProjectContainer !max-w-none text-center p-12">
-                    <div class="text-[10px] uppercase tracking-[0.3em] mb-3 opacity-40">Active Deployments</div>
+        <section class="mb-32">
+            <h2 class="text-xs uppercase tracking-[0.4em] mb-12 opacity-30">Network Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="ProjectContainer !max-w-none !w-full text-center p-16">
+                    <div class="text-[10px] uppercase tracking-[0.3em] mb-4 opacity-40">Active Deployments</div>
                     <div class="StatValue" id="game-counter">0</div>
                 </div>
-                <div class="ProjectContainer !max-w-none text-center p-12">
-                    <div class="text-[10px] uppercase tracking-[0.3em] mb-3 opacity-40">Total Session Visits</div>
+                <div class="ProjectContainer !max-w-none !w-full text-center p-16">
+                    <div class="text-[10px] uppercase tracking-[0.3em] mb-4 opacity-40">Total Session Visits</div>
                     <div class="StatValue" id="visit-counter">0</div>
                 </div>
             </div>
         </section>
 
         <!-- Games Contributed -->
-        <section class="mb-24">
-            <h2 class="text-xs uppercase tracking-[0.4em] mb-6 opacity-30">Experiences & Contributions</h2>
+        <section class="mb-32">
+            <h2 class="text-xs uppercase tracking-[0.4em] mb-8 opacity-30">Experiences & Contributions</h2>
             <div class="ScrollWrapper">
                 <div id="games-grid" class="ScrollContainer">
                     <!-- Dynamic Content -->
@@ -213,8 +244,8 @@
         </section>
 
         <!-- VFX & Technical Showcases -->
-        <section class="mb-24">
-            <h2 class="text-xs uppercase tracking-[0.4em] mb-6 opacity-30">Technical VFX Showcases</h2>
+        <section class="mb-32">
+            <h2 class="text-xs uppercase tracking-[0.4em] mb-8 opacity-30">Technical VFX Showcases</h2>
             <div class="ScrollWrapper">
                 <div id="projects-grid" class="ScrollContainer">
                     <!-- Dynamic Content -->
@@ -222,7 +253,7 @@
             </div>
         </section>
 
-        <footer class="mt-32 opacity-20 text-[10px] tracking-[0.5em] uppercase text-center pb-20">
+        <footer class="mt-40 opacity-20 text-[10px] tracking-[0.5em] uppercase text-center pb-24">
             <p>&copy; 2025 KAIZER ENGINE &bull; ALL SYSTEMS OPERATIONAL</p>
         </footer>
     </main>
@@ -257,14 +288,14 @@
             gamesGrid.innerHTML = featuredGames.map(game => `
                 <a href="${game.link || '#'}" target="_blank" class="ProjectContainer ${game.isEmpty ? 'opacity-40 grayscale pointer-events-none' : ''}">
                     <img src="https://tr.rbxcdn.com/30DAY-PlaceHolder-600x600-Png/150/150/Image/Png" id="icon-${game.id}" class="GameIcon" alt="Icon">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-white font-medium text-sm">${game.title}</h3>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-white font-semibold text-lg">${game.title}</h3>
                         ${!game.isEmpty ? '<div class="LiveIndicator"><div class="Pulse"></div>LIVE</div>' : ''}
                     </div>
-                    <p class="text-[11px] mb-6 line-clamp-2 leading-relaxed">${game.description}</p>
+                    <p class="text-xs mb-8 line-clamp-3 leading-relaxed opacity-60">${game.description}</p>
                     <div class="mt-auto flex justify-between items-center">
-                        <span class="text-[9px] border border-blue-500/30 text-blue-400 px-2 py-0.5 rounded uppercase font-bold tracking-tighter">${game.role}</span>
-                        <div class="text-[10px] font-mono text-white/40" id="visits-${game.id}">0 Visits</div>
+                        <span class="text-[10px] border border-blue-500/30 text-blue-400 px-3 py-1 rounded uppercase font-bold tracking-tighter">${game.role}</span>
+                        <div class="text-[11px] font-mono text-white/40" id="visits-${game.id}">0 Visits</div>
                     </div>
                 </a>
             `).join('');
@@ -274,23 +305,62 @@
                     <video muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
                         <source src="${vfx.videoUrl}" type="video/mp4">
                     </video>
-                    <h3 class="text-white mb-2 text-sm font-medium">${vfx.title}</h3>
-                    <p class="text-[11px] opacity-50 leading-relaxed">${vfx.description}</p>
+                    <h3 class="text-white mb-3 text-lg font-semibold">${vfx.title}</h3>
+                    <p class="text-xs opacity-50 leading-relaxed">${vfx.description}</p>
                 </div>
             `).join('');
 
-            // Smooth Horizontal Scroll Support
-            document.querySelectorAll('.ScrollContainer').forEach(container => {
-                container.addEventListener('wheel', (e) => {
-                    if (e.deltaY !== 0) {
-                        e.preventDefault();
-                        container.scrollBy({ left: e.deltaY * 2, behavior: 'smooth' });
-                    }
-                });
-            });
+            document.querySelectorAll('.ScrollContainer').forEach(setupSmoothScroll);
         }
 
-        // --- API & ANIMATION ---
+        function setupSmoothScroll(container) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            let velocity = 0;
+            let rafId;
+
+            container.addEventListener('mousedown', (e) => {
+                isDown = true;
+                container.classList.add('active');
+                startX = e.pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+                cancelAnimationFrame(rafId);
+            });
+
+            container.addEventListener('mouseleave', () => { isDown = false; });
+            container.addEventListener('mouseup', () => { 
+                isDown = false;
+                applyMomentum();
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 2;
+                const prevScroll = container.scrollLeft;
+                container.scrollLeft = scrollLeft - walk;
+                velocity = container.scrollLeft - prevScroll;
+            });
+
+            container.addEventListener('wheel', (e) => {
+                if (e.deltaY !== 0) {
+                    e.preventDefault();
+                    velocity = e.deltaY * 0.5;
+                    applyMomentum();
+                }
+            }, { passive: false });
+
+            function applyMomentum() {
+                container.scrollLeft += velocity;
+                velocity *= 0.95;
+                if (Math.abs(velocity) > 0.5) {
+                    rafId = requestAnimationFrame(applyMomentum);
+                }
+            }
+        }
+
         async function initDashboard() {
             let totalVisits = 0;
             let activeCount = 0;
@@ -307,11 +377,14 @@
                     totalVisits += stats.visits || 0;
                     activeCount++;
 
-                    document.getElementById(`visits-${game.id}`).innerText = (stats.visits || 0).toLocaleString() + " Visits";
+                    const visitEl = document.getElementById(`visits-${game.id}`);
+                    if (visitEl) visitEl.innerText = (stats.visits || 0).toLocaleString() + " Visits";
+                    
                     const iconRes = await fetch(`https://thumbnails.roproxy.com/v1/places/gameicons?placeIds=${game.id}&size=150x150&format=Png&isCircular=false`);
                     const iconJson = await iconRes.json();
-                    document.getElementById(`icon-${game.id}`).src = iconJson.data[0].imageUrl;
-                } catch (e) { console.error("API error for " + game.id); }
+                    const iconEl = document.getElementById(`icon-${game.id}`);
+                    if (iconEl) iconEl.src = iconJson.data[0].imageUrl;
+                } catch (e) { console.error("API error"); }
             }
 
             animateCounter('game-counter', activeCount);
@@ -321,19 +394,19 @@
         function animateCounter(id, target, suffix = "") {
             const el = document.getElementById(id);
             let current = 0;
-            const duration = 2000;
+            const duration = 2500;
             const start = performance.now();
             
             function step(timestamp) {
                 const progress = Math.min((timestamp - start) / duration, 1);
-                current = Math.floor(progress * target);
+                const eased = 1 - Math.pow(2, -10 * progress);
+                current = Math.floor(eased * target);
                 el.innerText = current.toLocaleString() + suffix;
                 if (progress < 1) requestAnimationFrame(step);
             }
             requestAnimationFrame(step);
         }
 
-        // --- CURSOR & RAIN ---
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
@@ -346,17 +419,17 @@
         function initRain() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            drops = Array(100).fill().map(() => ({
+            drops = Array(120).fill().map(() => ({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                len: Math.random() * 20 + 10,
-                v: Math.random() * 6 + 4
+                len: Math.random() * 25 + 15,
+                v: Math.random() * 8 + 5
             }));
         }
 
         function drawRain() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(59, 130, 246, 0.1)';
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.08)';
             ctx.lineWidth = 1;
             drops.forEach(d => {
                 ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.len); ctx.stroke();
