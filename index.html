@@ -19,27 +19,32 @@
   <script src="JS/RainEffect.js"></script>
 
   <style>
-    .TopRightLogin {
+    .TopRightNav {
       position: absolute;
       top: 20px;
       right: 20px;
       z-index: 1000;
     }
 
-    .TopRightLogin .MusicButton {
+    .TopRightNav .PortfolioButton {
       display: flex;
       align-items: center;
-      gap: 5px;
-      background-color: #1a1a1a;
-      border: none;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 6px;
+      gap: 8px;
+      background-color: #171717;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #a3a3a3;
+      padding: 8px 16px;
+      border-radius: 15px;
       cursor: pointer;
+      text-decoration: none;
+      font-family: "DM Mono", monospace;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     }
 
-    .TopRightLogin .MusicButton:hover {
-      background-color: #333;
+    .TopRightNav .PortfolioButton:hover {
+      background-color: #222;
+      color: white;
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -48,13 +53,13 @@
   <!-- Rain canvas as the very first element to ensure it's behind everything -->
   <canvas id="rain-canvas"></canvas>
   
-  <!-- Top Right Login Button -->
-  <form action="/login.html" method="GET" class="TopRightLogin">
-    <button type="submit" class="MusicButton">
-      <img src="favicon.ico" alt="Login Icon" width="20" height="20" class="SocialIcon" />
-      <span class="Link">Login</span>
-    </button>
-  </form>
+  <!-- Top Right Portfolio Button -->
+  <div class="TopRightNav">
+    <a href="/portfolio" class="PortfolioButton">
+      <img src="Icons/Lua.png" alt="Portfolio Icon" width="18" height="18" class="SocialIcon" />
+      <span class="Link">Portfolio</span>
+    </a>
+  </div>
 
   <!-- Particles temporarily removed -->
   <!-- <div id="particles-js"></div> -->
@@ -75,7 +80,7 @@
 
     <h1>Hello there! 👋</h1>
     <p>
-      Hi.You likely know me as <a style="color: whitesmoke;">shloopy/kaiser/dull</a> across most platforms.<br><br> Im a vfx artist mainly but i also do scripting. currently i have 78 hours on sakura stand :)
+      Hi. You likely know me as <a style="color: whitesmoke;">shloopy/kaiser/dull</a> across most platforms.<br><br> Im a vfx artist mainly but i also do scripting. currently i have 78 hours on sakura stand :)
     </p>
 
     <div class="SocialRow">
@@ -139,51 +144,6 @@
   </div>
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-  <!-- Particles temporarily commented out -->
- <!-- <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-
-  <!-- Particles initialization temporarily commented out -->
-  <!--
-  <script>
-    particlesJS("particles-js", {
-      "particles": {
-        "number": { "value": 50, "density": { "enable": false, "value_area": 500 } },
-        "color": { "value": ["#FAFAFA"] },
-        "shape": {
-          "type": "circle",
-          "stroke": { "width": 0, "color": "#fff" },
-          "polygon": { "nb_sides": 5 },
-          "image": { "src": "img/github.svg", "width": 100, "height": 100 }
-        },
-        "opacity": {
-          "value": 0.6, "random": true,
-          "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false }
-        },
-        "size": {
-          "value": 3, "random": true,
-          "anim": { "enable": true, "speed": 1, "size_min": 0.1, "sync": true }
-        },
-        "line_linked": { "enable": false, "distance": 120, "color": "#ffffff", "opacity": 0.4, "width": 1 }
-      },
-      "interactivity": {
-        "detect_on": "window",
-        "events": {
-          "onhover": { "enable": false, "mode": "grab" },
-          "onclick": { "enable": true, "mode": "repulse" },
-          "resize": true
-        },
-        "modes": {
-          "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
-          "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 },
-          "repulse": { "distance": 150, "duration": 1.5 },
-          "push": { "particles_nb": 4 },
-          "remove": { "particles_nb": 2 }
-        }
-      },
-      "retina_detect": true
-    });
-  </script>
-  -->
 </body>
 
 </html>
