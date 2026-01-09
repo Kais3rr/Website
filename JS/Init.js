@@ -1,4 +1,4 @@
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', () => {
     const Cursor = document.querySelector('.CustomCursor');
     let CursorX = 0,
         CursorY = 0;
@@ -25,4 +25,5 @@ window.onload = function() {
     document.oncontextmenu = document.body.oncontextmenu = function() {
         return false;
     }
+
 }
