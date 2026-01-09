@@ -1,282 +1,284 @@
-/* =========================================
-   1. IMPORTS & GLOBAL SETTINGS
-   ========================================= */
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaizer | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+        
+        * { cursor: none !important; }
 
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background-color: #090909;
-    font-family: "DM Mono", monospace;
-    font-style: normal;
-    font-display: swap;
-    color: white;
-    overflow-x: hidden; /* Prevents horizontal scrollbar */
-}
+        body {
+            background-color: #090909;
+            font-family: "DM Mono";
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Main scroll handles overflow */
+        }
 
-/* HIDE DEFAULT CURSOR GLOBALLY */
-* {
-    cursor: none !important;
-}
+        /* --- THIS IS THE MISSING CURSOR STYLE --- */
+        .CustomCursor {
+            position: fixed;       /* Keeps it on screen */
+            top: 0;
+            left: 0;
+            pointer-events: none;  /* Allows clicking through it */
+            z-index: 999999;       /* On top of everything */
+            transform: translate(-50%, -50%); /* Centers it */
+            will-change: transform;
+        }
+        
+        .CustomCursor img {
+            width: 32px; /* Adjust size here */
+            height: auto;
+        }
+        /* --------------------------------------- */
 
-::-moz-selection, ::selection {
-    background-color: transparent;
-}
+        #page-wrapper {
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
 
+        #particles-js, #rain-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+        }
+        #particles-js { z-index: -1; }
+        #rain-canvas { z-index: -999; opacity: 0.8; }
 
-/* =========================================
-   2. CUSTOM CURSOR (CRITICAL FOR JS)
-   ========================================= */
-.CustomCursor {
-    /* Must be ABSOLUTE to work with your scroll-based JS */
-    position: absolute; 
-    top: 0;
-    left: 0;
-    width: auto;
-    height: auto;
-    pointer-events: none; /* Clicks pass through */
-    z-index: 999999; 
-    transform: translate(-50%, -50%); /* Center on mouse */
-    will-change: left, top;
-}
+        /* Typography & Layout */
+        h1 { font-size: 2.25rem; font-weight: 500; }
+        h2, h3 { font-size: 1.5rem; font-weight: 500; }
+        p { color: #8f8f8f; max-width: 75vw; }
+        .Main { padding: 7vh 7vw; }
 
-.CustomCursor img {
-    width: 32px; /* Adjust size if needed */
-    height: auto;
-    display: block;
-}
+        /* Components */
+        .ProjectContainer, .MusicButton, .LanguageContainer, .SocialButton {
+            background-color: #171717;
+            border-radius: 15px;
+            color: #a3a3a3;
+            transition: transform 0.3s, color 0.3s;
+        }
+        .ProjectContainer { display: block; padding: 15px; margin-bottom: 15px; }
+        
+        .SocialRow { display: flex; gap: 10px; margin-bottom: 20px; }
+        .SocialButton, .MusicButton, .LanguageContainer {
+            display: flex; align-items: center; padding: 5px 13px; gap: 5px;
+        }
 
+        .MusicButton:hover, .LanguageContainer:hover, .SocialButton:hover, .ProjectContainer:hover {
+            transform: scale(1.05); color: white;
+        }
 
-/* =========================================
-   3. ENTRY OVERLAY
-   ========================================= */
-#entry-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #090909;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    transition: opacity 1s ease, visibility 1s ease;
-}
+        .Separator {
+            height: 5px;
+            background: linear-gradient(90deg, #ff6f61, #ffca28, #4caf50, #2196f3, #9c27b0);
+            background-size: 300% 300%;
+            animation: SeperatorAnimation 10s ease infinite;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        @keyframes SeperatorAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-#entry-overlay p {
-    color: whitesmoke;
-    font-family: "DM Mono", monospace;
-    animation: pulse 2s infinite;
-}
+        /* Modal */
+        #vfx-modal {
+            position: fixed; inset: 0; z-index: 100000;
+            background: rgba(0, 0, 0, 0.95);
+            display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+        #vfx-modal.active { display: flex; }
+    </style>
+</head>
+<body>
 
-@keyframes pulse {
-    0% { opacity: 0.3; }
-    50% { opacity: 1; }
-    100% { opacity: 0.3; }
-}
+    <div class="CustomCursor" id="cursor">
+        <img src="Icons/Cursor.png" alt="cursor">
+    </div>
 
+    <canvas id="rain-canvas"></canvas>
 
-/* =========================================
-   4. LAYOUT & BACKGROUND EFFECTS
-   ========================================= */
-#page-wrapper {
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
+    <div id="page-wrapper">
+        <div id="vfx-modal" onclick="this.classList.remove('active')">
+            <div class="bg-[#171717] p-6 rounded-[20px] max-w-2xl w-full border border-white/5" onclick="event.stopPropagation()">
+                <video id="modal-video" controls class="w-full rounded-lg mb-4"></video>
+                <h2 id="modal-title" class="mb-2"></h2>
+                <p id="modal-description" class="text-sm"></p>
+            </div>
+        </div>
 
-#particles-js, #rain-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
+        <main class="Main">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                <div>
+                    <h1>Kaizer</h1>
+                    <p>Systems Engineer & VFX Designer</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <div class="LanguageContainer">System Status: Operational</div>
+                    <div class="MusicButton">Audio: Enabled</div>
+                </div>
+            </div>
 
-#particles-js { z-index: -1; }
-#rain-canvas { 
-    z-index: -999; 
-    opacity: 0.8; 
-}
+            <div class="Separator"></div>
 
-@media (max-width: 768px) {
-    #rain-canvas {
-        height: 100vh;
-        width: 100vw;
-    }
-}
+            <section class="mb-12">
+                <div class="SocialRow">
+                    <a href="#" class="SocialButton">Discord</a>
+                    <a href="#" class="SocialButton">GitHub</a>
+                    <a href="#" class="SocialButton">Roblox</a>
+                </div>
+            </section>
 
+            <section class="mb-16">
+                <h2 class="mb-6">Statistics</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="ProjectContainer">
+                        <div class="text-[10px] uppercase opacity-50 mb-1">Contributions</div>
+                        <div class="text-3xl font-bold" id="game-counter">0</div>
+                    </div>
+                    <div class="ProjectContainer">
+                        <div class="text-[10px] uppercase opacity-50 mb-1">Total Impact</div>
+                        <div class="text-3xl font-bold" id="visit-counter">0</div>
+                    </div>
+                </div>
+            </section>
 
-/* =========================================
-   5. TOP RIGHT NAVIGATION
-   ========================================= */
-.TopRightNav {
-    position: fixed; 
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 1s ease;
-}
+            <section class="mb-16">
+                <h2 class="mb-6">Project Showcase</h2>
+                <div id="projects-grid" class="space-y-4"></div>
+            </section>
 
-.TopRightNav.visible {
-    opacity: 1;
-}
+            <footer class="mt-20 opacity-20 text-[10px] text-center pb-10">
+                &copy; 2025 KAIZER ENGINE &bull; ACCESSING TERMINAL...
+            </footer>
+        </main>
+    </div>
 
-.TopRightNav .PortfolioButton {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #171717;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    color: #a3a3a3;
-    padding: 8px 16px;
-    border-radius: 15px;
-    text-decoration: none;
-    font-family: "DM Mono", monospace;
-    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-}
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-.TopRightNav .PortfolioButton:hover {
-    background-color: #222;
-    color: white;
-    transform: scale(1.05);
-}
+        // --- MOCK CONFIG FOR DEMO (Replace with your real config) ---
+        const firebaseConfig = { apiKey: "demo", authDomain: "demo", projectId: "demo" }; 
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
 
+        const vfxProjects = [
+            { id: "v1", title: "Procedural Lightning", desc: "Real-time branching lightning systems." },
+            { id: "v2", title: "Chaos Engine", desc: "Physics-based particle collisions." }
+        ];
 
-/* =========================================
-   6. MAIN CONTENT TYPOGRAPHY
-   ========================================= */
-h1 {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
+        async function init() {
+            // await signInAnonymously(auth); // Commented out for demo
+            renderVFX();
+            initRain();
+            drawRain();
+            animateCounter('game-counter', 150);
+            animateCounter('visit-counter', 500000, "+");
+            
+            // START THE CURSOR LOOP
+            animateCursorLoop(); 
+        }
 
-h2, h3 {
-    font-size: 1.5rem;
-    line-height: 2rem;
-    font-weight: 500;
-}
+        function renderVFX() {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = vfxProjects.map(v => `
+                <div class="ProjectContainer" onclick="openModal('${v.title}', '${v.desc}')">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg">${v.title}</h3>
+                            <p class="text-xs">${v.desc}</p>
+                        </div>
+                        <div class="text-[10px] font-bold text-blue-400">VIEW SYSTEM</div>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-p {
-    color: #8f8f8f;
-    font-weight: 400;
-    max-width: 75vw;
-}
+        window.openModal = (title, desc) => {
+            const modal = document.getElementById('vfx-modal');
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-description').innerText = desc;
+            modal.classList.add('active');
+        };
 
-/* Merged Main Class */
-.Main {
-    padding: 7vh 7vw;
-    opacity: 0; /* Starts hidden for entry effect */
-    transition: opacity 1s ease;
-    max-width: 1200px;
-    margin: 0 auto;
-}
+        function animateCounter(id, target, suffix = "") {
+            const el = document.getElementById(id);
+            let current = 0;
+            const step = () => {
+                current += Math.ceil(target / 100);
+                if (current >= target) {
+                    el.innerText = target.toLocaleString() + suffix;
+                } else {
+                    el.innerText = current.toLocaleString() + suffix;
+                    requestAnimationFrame(step);
+                }
+            };
+            step();
+        }
 
-.Main.visible {
-    opacity: 1;
-}
+        // ============================================
+        // SMOOTH CURSOR LOGIC (UPDATED)
+        // ============================================
+        const cursor = document.getElementById('cursor');
+        let cursorX = 0, cursorY = 0; // Current position
+        let targetX = 0, targetY = 0; // Mouse position
+        const speed = 0.15; // Lower = Slower/Smoother
 
+        // Track real mouse position
+        document.addEventListener('mousemove', (e) => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+        });
 
-/* =========================================
-   7. BUTTONS & CONTAINERS
-   ========================================= */
-.ProjectContainer, 
-.MusicButton, 
-.LanguageContainer, 
-.SocialButton {
-    background-color: #171717;
-    border: none;
-    border-radius: 15px;
-    color: #a3a3a3;
-    font-family: "DM Mono";
-    transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-}
-
-/* Project Container Specifics */
-.ProjectContainer {
-    display: block;
-    padding: 15px 13px;
-    margin-bottom: 15px;
-    text-decoration: none;
-    max-width: 80vw;
-    font-size: 1rem;
-}
-
-/* Button Group Styling */
-.MusicButton, .LanguageContainer, .SocialButton {
-    display: flex;
-    align-items: center;
-    padding: 0 13px;
-    gap: 5px;
-    text-decoration: none;
-}
-
-.SocialButton { height: 25px; }
-.MusicButton, .LanguageContainer { 
-    height: 30px; 
-    margin-bottom: 10px;
-}
-
-/* Hover Effects */
-.MusicButton:hover, 
-.LanguageContainer:hover, 
-.SocialButton:hover, 
-.ProjectContainer:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    color: white;
-}
-
-.SocialRow {
-    padding-bottom: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-}
-
-.Link {
-    text-decoration: none;
-    color: #a3a3a3;
-    display: block;
-}
+        // Loop to move the div slowly towards the mouse
+        function animateCursorLoop() {
+            cursorX += (targetX - cursorX) * speed;
+            cursorY += (targetY - cursorY) * speed;
+            
+            // Apply Transform for smoother performance than Top/Left
+            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+            
+            requestAnimationFrame(animateCursorLoop);
+        }
+        // ============================================
 
 
-/* =========================================
-   8. ANIMATIONS & MODALS
-   ========================================= */
-.Separator {
-    height: 5px;
-    background: linear-gradient(90deg, #ff6f61, #ffca28, #4caf50, #2196f3, #9c27b0);
-    background-size: 300% 300%;
-    animation: SeperatorAnimation 10s ease infinite;
-    border-radius: 10px;
-    margin: 20px 0;
-}
+        // Rain Logic
+        const canvas = document.getElementById('rain-canvas');
+        const ctx = canvas.getContext('2d');
+        let drops = [];
+        function initRain() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drops = Array(50).fill().map(() => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                len: Math.random() * 15 + 5,
+                v: Math.random() * 4 + 2
+            }));
+        }
+        function drawRain() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.4)';
+            drops.forEach(d => {
+                ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.len); ctx.stroke();
+                d.y += d.v; if (d.y > canvas.height) d.y = -d.len;
+            });
+            requestAnimationFrame(drawRain);
+        }
 
-@keyframes SeperatorAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Modal styling */
-#vfx-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 100000;
-    background: rgba(0, 0, 0, 0.95);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-#vfx-modal.active { display: flex; }
-
+        init();
+        window.addEventListener('resize', initRain);
+    </script>
+</body>
+</html>
