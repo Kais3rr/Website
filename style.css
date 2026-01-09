@@ -16,9 +16,7 @@ body, html {
 }
 
 /* HIDE DEFAULT CURSOR GLOBALLY */
-* {
-    cursor: none !important;
-}
+
 
 ::-moz-selection, ::selection {
     background-color: transparent;
@@ -279,4 +277,5 @@ p {
 }
 
 #vfx-modal.active { display: flex; }
+
 
