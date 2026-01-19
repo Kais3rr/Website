@@ -13,6 +13,7 @@ body, html {
     font-display: swap;
     color: white;
     overflow-x: hidden; /* Prevents horizontal scrollbar */
+    cursor: none;
 }
 
 /* HIDE DEFAULT CURSOR GLOBALLY */
@@ -277,5 +278,6 @@ p {
 }
 
 #vfx-modal.active { display: flex; }
+
 
 
